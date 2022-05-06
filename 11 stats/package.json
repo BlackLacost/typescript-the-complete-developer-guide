@@ -1,0 +1,19 @@
+{
+  "name": "11-stats",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "keywords": [],
+  "author": "Ilya Lisin <blacklacost@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^17.0.31",
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.16"
+  }
+}
