@@ -1,54 +1,60 @@
-import axios from 'axios'
+import { Attributes } from './Attributes'
+import { Eventing } from './Eventing'
+import { Sync } from './Sync'
 
-interface UserProps {
+export interface UserProps {
   id?: number
   name?: string
   age?: number
 }
-
-type Callback = () => void
+const rootUrl = 'http://localhost:3000/users/'
 
 export class User {
-  events: { [key: string]: Callback[] } = {}
+  public events = new Eventing()
+  public sync = new Sync<UserProps>(rootUrl)
+  public attributes: Attributes<UserProps>
 
-  constructor(private data: UserProps) {}
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs)
+  }
 
-  get(propName: string): number | string {
-    return this.data[propName]
+  get on() {
+    return this.events.on
+  }
+
+  get trigger() {
+    return this.events.trigger
+  }
+
+  get get() {
+    return this.attributes.get
   }
 
   set(update: UserProps): void {
-    this.data = { ...this.data, ...update }
-  }
-
-  on(eventName: string, callback: Callback) {
-    const handlers = this.events[eventName] ?? []
-    handlers.push(callback)
-    this.events[eventName] = handlers
-  }
-
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName]
-
-    if (!handlers || handlers.length === 0) return
-
-    handlers.forEach((callback) => callback())
+    this.attributes.set(update)
+    this.events.trigger('change')
   }
 
   fetch(): void {
-    axios
-      .get(`http://localhost:3000/users/${this.get('id')}`)
-      .then((response): void => {
-        this.set(response.data)
-      })
+    const id = this.get('id')
+
+    if (typeof id !== 'number') {
+      throw new Error('Cannot fetch without an id')
+    }
+
+    this.sync.fetch(id).then((response): void => {
+      this.set(response.data)
+    })
   }
 
   save(): void {
-    const id = this.get('id')
-    if (id) {
-      axios.put(`http://localhost:3000/users/${id}`, this.data)
-    } else {
-      axios.post('http://localhost:3000/users/', this.data)
-    }
+    this.sync
+      .save(this.attributes.getAll())
+      .then((_): void => {
+        this.trigger('save')
+      })
+      .catch(() => {
+        this.trigger('error')
+      })
   }
 }
