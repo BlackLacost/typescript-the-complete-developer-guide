@@ -2,8 +2,8 @@
   "users": [
     {
       "id": 1,
-      "name": "qwe",
-      "age": 0
+      "name": "qweqwe",
+      "age": 22
     },
     {
       "name": "new record",
@@ -14,39 +14,6 @@
       "name": "new record",
       "age": 0,
       "id": 3
-    },
-    {
-      "name": "new record",
-      "age": 0,
-      "id": 4
-    },
-    {
-      "name": "new record",
-      "age": 0,
-      "id": 5
-    },
-    {
-      "name": "new record",
-      "age": 0,
-      "id": 6
-    },
-    {
-      "name": "blacklacost",
-      "age": 999,
-      "id": 7
-    },
-    {
-      "name": "blacklacost",
-      "age": 999,
-      "id": 8
-    },
-    {
-      "id": 9
-    },
-    {
-      "name": "blacklacost",
-      "age": 20,
-      "id": 10
     }
   ]
 }
