@@ -1,5 +1,3 @@
-import { UserProps } from './User'
-
 export class Attributes<T> {
   constructor(private data: T) {}
 
@@ -7,7 +5,7 @@ export class Attributes<T> {
     return this.data[key]
   }
 
-  set = (update: T): void => {
+  set(update: T): void {
     this.data = { ...this.data, ...update }
   }
 
@@ -15,6 +13,3 @@ export class Attributes<T> {
     return this.data
   }
 }
-
-const attrs = new Attributes<UserProps>({})
-const age = attrs.get('age')
