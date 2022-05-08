@@ -1,7 +1,8 @@
 import { User } from './models/User'
 import { UserForm } from './views/UserForm'
 
-const user = User.buildUser({ name: 'Name', age: 20 })
+const user = User.buildUser({ id: 1 })
+user.fetch()
 
 const root = document.getElementById('root')
 
